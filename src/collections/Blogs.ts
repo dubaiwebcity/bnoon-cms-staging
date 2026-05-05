@@ -8,10 +8,12 @@ export const Blogs: CollectionConfig = {
     defaultColumns: ['title', 'order'],
   },
 
-  access: {
-    read: () => true,
-  },
-
+access: {
+  read: () => true,
+  create: () => true,
+  update: () => true,
+  delete: () => true,
+},
   defaultSort: 'order',
 
   fields: [
