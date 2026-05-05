@@ -69,6 +69,10 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    blogs: Blog;
+    categories: Category;
+    tags: Tag;
+    pages: Page;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +82,10 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    blogs: BlogsSelect<false> | BlogsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -86,10 +94,10 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  fallbackLocale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('en' | 'ar') | ('en' | 'ar')[];
   globals: {};
   globalsSelect: {};
-  locale: null;
+  locale: 'en' | 'ar';
   widgets: {
     collections: CollectionsWidget;
   };
@@ -163,6 +171,79 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blogs".
+ */
+export interface Blog {
+  id: string;
+  title?: string | null;
+  titleNote?: string | null;
+  titleLink?: string | null;
+  content?: string | null;
+  author?: string | null;
+  category?: (string | null) | Category;
+  tags?: (string | Tag)[] | null;
+  image?: (string | null) | Media;
+  embedMap?: string | null;
+  imageUrl?: string | null;
+  readMoreLink?: string | null;
+  publishedDate?: string | null;
+  order: number;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (string | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: string;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: string;
+  slug: string;
+  title: {
+    en: string;
+    ar: string;
+  };
+  content?: {
+    en?: string | null;
+    ar?: string | null;
+  };
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -192,6 +273,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'blogs';
+        value: string | Blog;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: string | Category;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: string | Tag;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: string | Page;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -274,6 +371,80 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blogs_select".
+ */
+export interface BlogsSelect<T extends boolean = true> {
+  title?: T;
+  titleNote?: T;
+  titleLink?: T;
+  content?: T;
+  author?: T;
+  category?: T;
+  tags?: T;
+  image?: T;
+  embedMap?: T;
+  imageUrl?: T;
+  readMoreLink?: T;
+  publishedDate?: T;
+  order?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  slug?: T;
+  title?:
+    | T
+    | {
+        en?: T;
+        ar?: T;
+      };
+  content?:
+    | T
+    | {
+        en?: T;
+        ar?: T;
+      };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
