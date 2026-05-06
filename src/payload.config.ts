@@ -15,7 +15,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  serverURL: 'https://bnoon-cms-staging.vercel.app',
+  serverURL: 'https://bnoon-cms-staging-rust.vercel.app',
 
 localization: {
   locales: ['en', 'ar'],
@@ -25,13 +25,13 @@ localization: {
 
 cors: [
   'http://localhost:3000',
-  'https://bnoon-website-cms.vercel.app',
+  'https://bnoon-website-cms-iota.vercel.app',
   'https://*.vercel.app'
 ],
 
 csrf: [
   'http://localhost:3000',
-  'https://bnoon-website-cms.vercel.app',
+  'https://bnoon-website-cms-iota.vercel.app',
   'https://*.vercel.app'
 ],
   admin: {
