@@ -41,14 +41,28 @@ const Pages: CollectionConfig = {
       ],
     },
 
+ {
+  name: 'seo',
+  type: 'group',
+  fields: [
     {
-      name: 'seo',
+      name: 'en',
       type: 'group',
       fields: [
         { name: 'metaTitle', type: 'text' },
         { name: 'metaDescription', type: 'textarea' },
       ],
     },
+    {
+      name: 'ar',
+      type: 'group',
+      fields: [
+        { name: 'metaTitle', type: 'text' },
+        { name: 'metaDescription', type: 'textarea' },
+      ],
+    },
+  ],
+}
   ],
 };
 
