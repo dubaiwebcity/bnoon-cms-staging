@@ -1,9 +1,18 @@
 import type { CollectionConfig } from 'payload';
+
 const Pages: CollectionConfig = {
   slug: 'pages',
 
   admin: {
     useAsTitle: 'slug',
+  },
+
+  // ✅ ADD THIS BLOCK
+  access: {
+    read: () => true,
+    create: () => true,
+    update: () => true,
+    delete: () => true,
   },
 
   fields: [
@@ -18,18 +27,8 @@ const Pages: CollectionConfig = {
       name: 'title',
       type: 'group',
       fields: [
-        {
-          name: 'en',
-          type: 'text',
-          required: true,
-          label: 'Title (English)',
-        },
-        {
-          name: 'ar',
-          type: 'text',
-          required: true,
-          label: 'Title (Arabic)',
-        },
+        { name: 'en', type: 'text', required: true },
+        { name: 'ar', type: 'text', required: true },
       ],
     },
 
@@ -37,16 +36,8 @@ const Pages: CollectionConfig = {
       name: 'content',
       type: 'group',
       fields: [
-        {
-          name: 'en',
-          type: 'textarea',
-          label: 'Content (English)',
-        },
-        {
-          name: 'ar',
-          type: 'textarea',
-          label: 'Content (Arabic)',
-        },
+        { name: 'en', type: 'textarea' },
+        { name: 'ar', type: 'textarea' },
       ],
     },
 
@@ -54,16 +45,8 @@ const Pages: CollectionConfig = {
       name: 'seo',
       type: 'group',
       fields: [
-        {
-          name: 'metaTitle',
-          type: 'text',
-          label: 'Meta Title',
-        },
-        {
-          name: 'metaDescription',
-          type: 'textarea',
-          label: 'Meta Description',
-        },
+        { name: 'metaTitle', type: 'text' },
+        { name: 'metaDescription', type: 'textarea' },
       ],
     },
   ],
