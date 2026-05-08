@@ -27,12 +27,29 @@ export const Blogs: CollectionConfig = {
       required: true,
     },
 
-    {
-      name: 'slug',
-      type: 'text',
-      unique: true,
-      required: true,
+   {
+  name: 'slug',
+  type: 'text',
+  unique: true,
+  required: true,
+  hooks: {
+  beforeValidate: [
+    ({ data, value }) => {
+      if (!data) return value;
+
+      if (!data.slug && data.title) {
+        return data.title
+          .toLowerCase()
+          .trim()
+          .replace(/\s+/g, '-')
+          .replace(/[^\w-]+/g, '');
+      }
+
+      return value;
     },
+  ],
+},
+},
 
     {
       name: 'status',
@@ -76,13 +93,32 @@ export const Blogs: CollectionConfig = {
 
     { name: 'embedMap', type: 'text', localized: true },
     { name: 'imageUrl', type: 'text', localized: true },
-    { name: 'readMoreLink', type: 'text', localized: true },
 
-    {
-      name: 'publishedDate',
-      type: 'date',
-      admin: { position: 'sidebar' },
+  {
+  name: 'publishedDate',
+  type: 'date',
+  admin: { position: 'sidebar' },
+ hooks: {
+  beforeValidate: [
+    ({ data }) => {
+      if (!data) return;
+
+      if (data.title && !data.slug) {
+        return {
+          ...data,
+          slug: data.title
+            .toLowerCase()
+            .trim()
+            .replace(/\s+/g, '-')
+            .replace(/[^\w-]+/g, ''),
+        };
+      }
+
+      return data;
     },
+  ],
+},
+},
 
     {
       name: 'order',
