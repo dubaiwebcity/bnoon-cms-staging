@@ -1,12 +1,13 @@
 import type { CollectionConfig } from 'payload';
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
 export const Blogs: CollectionConfig = {
   slug: 'blogs',
 
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'status', 'publishedDate'],
-    preview: (doc) => `/en/blog/${doc.slug}`, // preview link
+    defaultColumns: ['title', 'status', 'order'],
+    preview: (doc) => `/blogs/${doc.slug}`,
   },
 
   access: {
@@ -16,46 +17,50 @@ export const Blogs: CollectionConfig = {
     delete: () => true,
   },
 
+  defaultSort: '-publishedDate',
+
   fields: [
-    // ✅ Title
     {
       name: 'title',
       type: 'text',
-      required: true,
       localized: true,
+      required: true,
     },
 
-    // ✅ Slug (auto URL)
     {
       name: 'slug',
       type: 'text',
-      required: true,
       unique: true,
+      required: true,
     },
 
-    // ✅ Rich Text (Lexical Editor)
+    {
+      name: 'status',
+      type: 'select',
+      defaultValue: 'draft',
+      options: [
+        { label: 'Draft', value: 'draft' },
+        { label: 'Published', value: 'published' },
+      ],
+    },
+
     {
       name: 'content',
       type: 'richText',
-      required: true,
+      editor: lexicalEditor(),
       localized: true,
     },
 
-    // ✅ Author
-    {
-      name: 'author',
-      type: 'text',
-      localized: true,
-    },
+    { name: 'titleNote', type: 'text', localized: true },
+    { name: 'titleLink', type: 'text', localized: true },
+    { name: 'author', type: 'text', localized: true },
 
-    // ✅ Category
     {
       name: 'category',
       type: 'relationship',
       relationTo: 'categories',
     },
 
-    // ✅ Tags
     {
       name: 'tags',
       type: 'relationship',
@@ -63,48 +68,26 @@ export const Blogs: CollectionConfig = {
       hasMany: true,
     },
 
-    // ✅ Featured Image (NO manual URL needed)
     {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
-      required: true,
     },
 
-    // ✅ Status (Draft / Published)
-    {
-      name: 'status',
-      type: 'select',
-      required: true,
-      defaultValue: 'draft',
-      options: [
-        {
-          label: 'Draft',
-          value: 'draft',
-        },
-        {
-          label: 'Published',
-          value: 'published',
-        },
-      ],
-    },
+    { name: 'embedMap', type: 'text', localized: true },
+    { name: 'imageUrl', type: 'text', localized: true },
+    { name: 'readMoreLink', type: 'text', localized: true },
 
-    // ✅ Publish Date (only when published)
     {
       name: 'publishedDate',
       type: 'date',
-      admin: {
-        condition: (_, siblingData) => siblingData.status === 'published',
-      },
+      admin: { position: 'sidebar' },
     },
 
-    // ✅ Optional: Google Map Embed
     {
-      name: 'embedMap',
-      type: 'text',
-      localized: true,
+      name: 'order',
+      type: 'number',
+      defaultValue: 1,
     },
   ],
-
-  timestamps: true,
 };
