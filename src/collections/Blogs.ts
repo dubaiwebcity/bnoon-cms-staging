@@ -147,7 +147,7 @@ export const Blogs: CollectionConfig = {
         afterRead: [
           ({ data }) => {
             if (!data?.slug) return '';
-            return `/blogs/${data.slug}`;
+            return `/en/${data.slug}`;
           },
         ],
       },
