@@ -9,7 +9,7 @@ import { Categories } from './collections/Categories';
 import { Tags } from './collections/Tags';
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-import { Pages } from './collections/pages';
+import Pages from './collections/pages'
 import { seoPlugin } from '@payloadcms/plugin-seo';
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
