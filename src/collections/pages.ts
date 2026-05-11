@@ -1,56 +1,72 @@
 import type { CollectionConfig } from 'payload';
-
-export const Pages: CollectionConfig = {
+const Pages: CollectionConfig = {
   slug: 'pages',
 
   admin: {
-    useAsTitle: 'title',
-  },
-
-  access: {
-    read: () => true,
-    create: () => true,
-    update: () => true,
-    delete: () => true,
+    useAsTitle: 'slug',
   },
 
   fields: [
     {
-      name: 'title',
+      name: 'slug',
       type: 'text',
-      localized: true,
       required: true,
+      unique: true,
     },
 
     {
-      name: 'slug',
-      type: 'text',
-      localized: true,
-      required: true,
+      name: 'title',
+      type: 'group',
+      fields: [
+        {
+          name: 'en',
+          type: 'text',
+          required: true,
+          label: 'Title (English)',
+        },
+        {
+          name: 'ar',
+          type: 'text',
+          required: true,
+          label: 'Title (Arabic)',
+        },
+      ],
     },
 
     {
       name: 'content',
-      type: 'richText',
-      localized: true,
+      type: 'group',
+      fields: [
+        {
+          name: 'en',
+          type: 'textarea',
+          label: 'Content (English)',
+        },
+        {
+          name: 'ar',
+          type: 'textarea',
+          label: 'Content (Arabic)',
+        },
+      ],
     },
 
     {
-      name: 'metaTitle',
-      type: 'text',
-      localized: true,
-    },
-
-    {
-      name: 'metaDescription',
-      type: 'textarea',
-      localized: true,
-    },
-
-    {
-      name: 'order',
-      type: 'number',
-      defaultValue: 1,
+      name: 'seo',
+      type: 'group',
+      fields: [
+        {
+          name: 'metaTitle',
+          type: 'text',
+          label: 'Meta Title',
+        },
+        {
+          name: 'metaDescription',
+          type: 'textarea',
+          label: 'Meta Description',
+        },
+      ],
     },
   ],
 };
+
+export default Pages;

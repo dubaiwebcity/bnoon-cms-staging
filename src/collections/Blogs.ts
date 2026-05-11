@@ -6,11 +6,8 @@ export const Blogs: CollectionConfig = {
 
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'status', 'order', 'publishedDate'],
-    preview: (doc) => `/en/${doc.slug}`,
-    livePreview: {
-      url: ({ data }) => `/en/${data?.slug || ''}`,
-    },
+    defaultColumns: ['title', 'status', 'order'],
+    preview: (doc) => `/blogs/${doc.slug}`,
   },
 
   access: {
@@ -20,16 +17,9 @@ export const Blogs: CollectionConfig = {
     delete: () => true,
   },
 
-  versions: {
-    drafts: {
-      autosave: true,
-    },
-  },
-
   defaultSort: '-publishedDate',
 
   fields: [
-    // TITLE
     {
       name: 'title',
       type: 'text',
@@ -37,32 +27,13 @@ export const Blogs: CollectionConfig = {
       required: true,
     },
 
-    // SLUG (AUTO GENERATE)
     {
       name: 'slug',
       type: 'text',
       unique: true,
       required: true,
-      hooks: {
-        beforeValidate: [
-          ({ data, value }) => {
-            if (!data) return value;
-
-            if (!data.slug && data.title) {
-              return data.title
-                .toLowerCase()
-                .trim()
-                .replace(/\s+/g, '-')
-                .replace(/[^\w-]+/g, '');
-            }
-
-            return value;
-          },
-        ],
-      },
     },
 
-    // STATUS (DRAFT / PUBLISHED)
     {
       name: 'status',
       type: 'select',
@@ -73,7 +44,6 @@ export const Blogs: CollectionConfig = {
       ],
     },
 
-    // CONTENT (LEXICAL EDITOR)
     {
       name: 'content',
       type: 'richText',
@@ -85,14 +55,12 @@ export const Blogs: CollectionConfig = {
     { name: 'titleLink', type: 'text', localized: true },
     { name: 'author', type: 'text', localized: true },
 
-    // CATEGORY
     {
       name: 'category',
       type: 'relationship',
       relationTo: 'categories',
     },
 
-    // TAGS
     {
       name: 'tags',
       type: 'relationship',
@@ -100,57 +68,26 @@ export const Blogs: CollectionConfig = {
       hasMany: true,
     },
 
-    // IMAGE UPLOAD
     {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
     },
 
-    // OPTIONAL IMAGE URL
-    {
-      name: 'imageUrl',
-      type: 'text',
-      localized: true,
-    },
+    { name: 'embedMap', type: 'text', localized: true },
+    { name: 'imageUrl', type: 'text', localized: true },
+    { name: 'readMoreLink', type: 'text', localized: true },
 
-    // MAP
-    {
-      name: 'embedMap',
-      type: 'text',
-      localized: true,
-    },
-
-    // PUBLISHED DATE
     {
       name: 'publishedDate',
       type: 'date',
       admin: { position: 'sidebar' },
-      defaultValue: () => new Date(),
     },
 
-    // ORDER
     {
       name: 'order',
       type: 'number',
       defaultValue: 1,
-    },
-
-    // AUTO READ MORE LINK
-    {
-      name: 'readMoreLink',
-      type: 'text',
-      admin: {
-        readOnly: true,
-      },
-      hooks: {
-        afterRead: [
-          ({ data }) => {
-            if (!data?.slug) return '';
-            return `/en/${data.slug}`;
-          },
-        ],
-      },
     },
   ],
 };
