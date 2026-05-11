@@ -7,9 +7,9 @@ export const Blogs: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'status', 'order', 'publishedDate'],
-    preview: (doc) => `/blogs/${doc.slug}`,
+    preview: (doc) => `/en/${doc.slug}`,
     livePreview: {
-      url: ({ data }) => `/blogs/${data?.slug || ''}`,
+      url: ({ data }) => `/en/${data?.slug || ''}`,
     },
   },
 
