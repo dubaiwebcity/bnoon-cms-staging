@@ -68,12 +68,6 @@ export const Blogs: CollectionConfig = {
       hasMany: true,
     },
 
-    {
-      name: 'image',
-      type: 'upload',
-      relationTo: 'media',
-    },
-
     { name: 'embedMap', type: 'text', localized: true },
     { name: 'imageUrl', type: 'text', localized: true },
     { name: 'readMoreLink', type: 'text', localized: true },
